@@ -13,3 +13,9 @@
 * The node-red dashboard removes the values > 70 and publishes the message to thingspeak via MQTT into two different charts
 
 ## Execution
+
+* We uploaded n files for this project:
+    * ranval.h
+    * ranvalAppC.nc
+    * ranvalC.nc
+ 
