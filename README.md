@@ -15,7 +15,7 @@
 ## Execution
 
 * We uploaded n files for this project:
-    * ranval.h
-    * ranvalAppC.nc
-    * ranvalC.nc
+    * `ranval.h`
+    * `ranvalAppC.nc`
+    * `ranvalC.nc`
  
