@@ -1,5 +1,7 @@
 # polimi-iot-homework-5
 
+## [ThingSpeak Channel Link](https://thingspeak.com/channels/1070813)
+
 ## Group members
 * [Marco Ceran](mailto:marco.ceran@mail.polimi.it) ID: 952673
 * [Fabio Segato](mailto:fabio1.segato@mail.polimi.it) ID: 928084
