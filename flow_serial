@@ -1,0 +1,278 @@
+[
+    {
+        "id": "b5d1af96.0416f8",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "18e64f70.ba6221",
+        "type": "tcp in",
+        "z": "b5d1af96.0416f8",
+        "name": "From SERIAL",
+        "server": "client",
+        "host": "localhost",
+        "port": "42069",
+        "datamode": "stream",
+        "datatype": "utf8",
+        "newline": "\\n",
+        "topic": "",
+        "base64": false,
+        "x": 280,
+        "y": 200,
+        "wires": [
+            [
+                "1a26e376.f3be4d"
+            ]
+        ]
+    },
+    {
+        "id": "c18d0ce7.ca5b5",
+        "type": "debug",
+        "z": "b5d1af96.0416f8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1610,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "1a26e376.f3be4d",
+        "type": "switch",
+        "z": "b5d1af96.0416f8",
+        "name": "Sort TOPIC",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "/field2",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "/field3",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 2,
+        "x": 510,
+        "y": 200,
+        "wires": [
+            [
+                "e6a34ade.d212d8"
+            ],
+            [
+                "6afeb113.504c1"
+            ]
+        ]
+    },
+    {
+        "id": "e6a34ade.d212d8",
+        "type": "change",
+        "z": "b5d1af96.0416f8",
+        "name": "Set TOPIC 2",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "/field2",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 510,
+        "y": 140,
+        "wires": [
+            [
+                "5488af6d.eaac18"
+            ]
+        ]
+    },
+    {
+        "id": "6afeb113.504c1",
+        "type": "change",
+        "z": "b5d1af96.0416f8",
+        "name": "Set TOPIC 3",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "/field3",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 510,
+        "y": 260,
+        "wires": [
+            [
+                "5488af6d.eaac18"
+            ]
+        ]
+    },
+    {
+        "id": "5488af6d.eaac18",
+        "type": "function",
+        "z": "b5d1af96.0416f8",
+        "name": "Get VALUE",
+        "func": "const regex_val = /Value: ([0-9]+)/gm;\nvar pld = regex_val.exec(msg.payload);\nmsg.payload = pld[1];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 730,
+        "y": 200,
+        "wires": [
+            [
+                "c80fca0e.492468"
+            ]
+        ]
+    },
+    {
+        "id": "c80fca0e.492468",
+        "type": "switch",
+        "z": "b5d1af96.0416f8",
+        "name": "Remove > 70",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "70",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 920,
+        "y": 200,
+        "wires": [
+            [
+                "a2f0a17e.aef04"
+            ]
+        ]
+    },
+    {
+        "id": "a2f0a17e.aef04",
+        "type": "delay",
+        "z": "b5d1af96.0416f8",
+        "name": "Rate Limiter",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "3",
+        "nbRateUnits": "60",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1130,
+        "y": 200,
+        "wires": [
+            [
+                "a6f7dc1a.953ad"
+            ]
+        ]
+    },
+    {
+        "id": "a6f7dc1a.953ad",
+        "type": "switch",
+        "z": "b5d1af96.0416f8",
+        "name": "Sort by TOPIC",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "/field2",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "/field3",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 2,
+        "x": 1340,
+        "y": 200,
+        "wires": [
+            [
+                "c18d0ce7.ca5b5",
+                "c711bb3a.881ff"
+            ],
+            [
+                "66bf266.43db858",
+                "c18d0ce7.ca5b5"
+            ]
+        ]
+    },
+    {
+        "id": "c711bb3a.881ff",
+        "type": "mqtt out",
+        "z": "b5d1af96.0416f8",
+        "name": "Field 2 Publisher",
+        "topic": "channels/1070813/publish/fields/field1/OPP99BWKDBZJFLJL",
+        "qos": "0",
+        "retain": "",
+        "broker": "929c4e5e.486718",
+        "x": 1350,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "66bf266.43db858",
+        "type": "mqtt out",
+        "z": "b5d1af96.0416f8",
+        "name": "Field 3 Publisher",
+        "topic": "channels/1070813/publish/fields/field2/OPP99BWKDBZJFLJL",
+        "qos": "0",
+        "retain": "",
+        "broker": "929c4e5e.486718",
+        "x": 1350,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "929c4e5e.486718",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "ThingSpeak Broker",
+        "broker": "mqtt.thingspeak.com",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    }
+]
